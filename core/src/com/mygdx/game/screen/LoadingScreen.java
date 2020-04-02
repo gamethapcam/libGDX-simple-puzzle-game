@@ -20,7 +20,6 @@ public class LoadingScreen implements Screen {
         this.app = app;
         this.shapeRenderer = new ShapeRenderer();//shapeRenderer 초기화
 
-        queueAssets();
     }
 
     private void queueAssets() {
@@ -32,6 +31,9 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         System.out.println("LODING");//로딩(에셋을 불러오는것이)이 너무 빨리 완료되서 확인용
+        this.progress = 0f;
+
+        queueAssets();//에셋 가져오는 메서드 호출.
     }
 
     public void update(float delta){//모든 에셋을 업데이트 한 다음에 에셋로드가 완료되었는지 계속 확인
@@ -39,7 +41,8 @@ public class LoadingScreen implements Screen {
         progress = MathUtils.lerp(progress, app.assets.getProgress(), .1f);//lerp의 뜻은 우리나라의 선형보간법. 두점이 주어졌을 때 그 사이에 위치한 값을 추정하기 위하여 직선 거리에 따라 선형적으로 계산하는 방법이다.
         //progress(=0f)에서 app.assets.getProgress()까지 0.1f씩 커짐. ==>lerp 메서드 의미. 시각적인 로딩창 구현 완료.
         if (app.assets.update() && progress >= app.assets.getProgress() - .001f){//앱의 에셋이 업데이트되고, 로딩창 애니메이션도 다 끝났다음의 동작 설정(보편적으로 게임에서 로딩 끝난 후 로그인이나 게임화면으로)
-            app.setScreen(new SplashScreen(app));//로딩 다 끝났으니 화면 이동
+            //app.setScreen(new SplashScreen(app));//로딩 다 끝났으니 화면 이동
+            app.setScreen(app.splashScreen);//위 주석 라인 코드와 기능은 같지만, new 인스턴스를 만드는 것으로 메모르 낭비.
         }
     }
 
@@ -87,6 +90,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+       System.out.println("loading dispose");
+       shapeRenderer.dispose();
     }
 }

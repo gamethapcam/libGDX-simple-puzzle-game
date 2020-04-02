@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.screen.LoadingScreen;
+import com.mygdx.game.screen.MainMenuScreen;
 import com.mygdx.game.screen.SplashScreen;
 
 public class MyGdxGame extends Game {
@@ -24,6 +25,10 @@ public class MyGdxGame extends Game {
 	//AssetManager 사용하여 로딩창 구현
 	public AssetManager assets;
 
+	public LoadingScreen  loadingScreen;
+	public SplashScreen splashScreen;
+	public MainMenuScreen mainMenuScreen;
+
 	@Override
 	public void create(){
 		assets=new AssetManager();
@@ -33,7 +38,11 @@ public class MyGdxGame extends Game {
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 
-		this.setScreen(new LoadingScreen(this));//게임 첫 화면 LoadingScreen으로 설정
+		loadingScreen = new LoadingScreen(this);
+		splashScreen = new SplashScreen(this);
+		mainMenuScreen = new MainMenuScreen(this);
+
+		this.setScreen(loadingScreen);//게임 첫 화면 LoadingScreen으로 설정
 	}
 
 	@Override
@@ -46,7 +55,9 @@ public class MyGdxGame extends Game {
 		batch.dispose();
 		font.dispose();
 		assets.dispose();
-		this.getScreen().dispose();//실행 후 게임 전체의 쓰레기값들 정리함? 나중에 얘 없어서 오류 날 수 있으니 확인요망!
+		loadingScreen.dispose();
+		splashScreen.dispose();
+		mainMenuScreen.dispose();//불러들인 화면의 객체들의 사용한 값들을 처리.
 	}
 
 }

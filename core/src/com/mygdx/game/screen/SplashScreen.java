@@ -30,22 +30,20 @@ public class SplashScreen implements Screen {
         //Viewport 종류마다 다른 효과를 지님. FitViewport에서는 요소들이 정해진 크기를 유지함.
         //StretchViewport 에서는 화면의 크기 조절에 따라서 요소들의 크기도 달라짐.
         //FillViewport에서는 너비를 유지하긴 하지만 비효율적. 요소들이 화면 밖에 나갈수도 있음.
-
-        Gdx.input.setInputProcessor(stage);//무대에 액터를 추가하기 위한것. 플레이어 상호작용 및 입력 이벤트를 허용하는 것 등.
-
-        Texture splashTex =  app.assets.get("StartScreen/splash.png",Texture.class);//에셋을 Texture객체로서 불러들이기. //new Texture(Gdx.files.internal("StartScreen/splash.png")); // Texture객체에 파일 넣기.
-        splashImg = new Image(splashTex);
-        //splashImg.setPosition(stage.getWidth() /2 -16, stage.getHeight() / 2 -16); // 32x32f
-        //show 메서드로 이동.
-        splashImg.setOrigin(splashImg.getWidth() /2, splashImg.getHeight()/2);
-        stage.addActor(splashImg);//액터를 추가 함으로서, 이미지 화면에 나타냄.
-
     }
 
     //Screen 인터페이스의 메서드들.
     @Override
     public void show() {//게임 설정 초기화 재설정 역할. 값 불러오기. (다음 레벨로 이동 등)
         System.out.println("SPLASH show...");
+
+        Gdx.input.setInputProcessor(stage);//무대에 액터를 추가하기 위한것. 플레이어 상호작용 및 입력 이벤트를 허용하는 것 등.
+        Texture splashTex =  app.assets.get("StartScreen/splash.png",Texture.class);//에셋을 Texture객체로서 불러들이기. LodingScreen의 update 메서드에서 부른 에셋 사용.
+        // new Texture(Gdx.files.internal("StartScreen/splash.png"));// Texture객체에 파일 넣기.
+        splashImg = new Image(splashTex);
+        //splashImg.setPosition(stage.getWidth() /2 -16, stage.getHeight() / 2 -16); // 32x32f
+        //show 메서드로 이동.
+        splashImg.setOrigin(splashImg.getWidth() /2, splashImg.getHeight()/2);
         splashImg.setPosition(stage.getWidth() /2 -32, stage.getHeight() / 2 +32); // 32x32f
 
         //splashImg.addAction(Actions.alpha(0.5f));
@@ -60,13 +58,15 @@ public class SplashScreen implements Screen {
                         Actions.scaleTo(2f,2f,2.5f,Interpolation.pow5),
                         Actions.moveTo(stage.getWidth() /2 -32, stage.getHeight() /2 - 32 ,2f,Interpolation.swing))));
         //parallel을 이용하면 병렬적으로 작업 수행 가능. 한꺼번에 실행.sequence에서는 순차적으로 실행이 되므로 효과를 복합적으로 넣기 위해서는 parallel 메서드를 사용해야함.
+
+        stage.addActor(splashImg);//액터를 추가 함으로서, 이미지 화면에 나타냄.
     }
 
     @Override
     public void render(float delta) {
         System.out.println("render...");
         Gdx.gl.glClearColor(1f,1f,1f,1f);//배경화면 색
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//배경화면 변화 버퍼 삭제. 이거 설정 안하면 배경화면 변경사항대로 겹쳐보임. 더러워 보이게됨.
 
         update(delta);
 
@@ -103,7 +103,7 @@ public class SplashScreen implements Screen {
     @Override
     public void hide() {//숨겨져있고, 화면이 바뀔 때 마다 로드되는 메서드
         System.out.println("hide...");
-    }
+    }//게임중 저장 기능?
 
     @Override
     public void dispose() {//메모리 관리를 위함
