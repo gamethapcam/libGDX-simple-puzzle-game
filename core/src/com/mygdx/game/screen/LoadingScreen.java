@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.MyGdxGame;
@@ -25,7 +26,7 @@ public class LoadingScreen implements Screen {
     private void queueAssets() {
         //사용자 지정함수인 queueAssets 에서 나중에 사용할 에셋 가져오기.
         app.assets.load("StartScreen/splash.png", Texture.class);//해당 에셋을 원하는 객체로 가져오기. TextureAtlas등을 불러내 사용가능.
-
+        app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class LoadingScreen implements Screen {
         shapeRenderer.end();
 
         app.batch.begin();
-        app.font.draw(app.batch, "Screen: Splash", 20, 20);
+        app.font24.draw(app.batch, "Screen: Splash", 20, 20);
         app.batch.end();
     }
 

@@ -46,6 +46,13 @@ public class SplashScreen implements Screen {
         splashImg.setOrigin(splashImg.getWidth() /2, splashImg.getHeight()/2);
         splashImg.setPosition(stage.getWidth() /2 -32, stage.getHeight() / 2 +32); // 32x32f
 
+        Runnable transeformationRunnable = new Runnable() {//스플래쉬 이미지 완료된후 Runnable 객체 실행.
+            @Override
+            public void run() {
+                app.setScreen(app.mainMenuScreen);//스크린 이동.
+            }
+        };
+
         //splashImg.addAction(Actions.alpha(0.5f));
         //Actions클래스: 객체의 동적인 움직임 등을 취할 수 있게 도와주는 역할 부여.
         //Actuons클래스의 alpha 메서드는 지정한 해당 객체를 약간 반투명하게 만들어주는 역할을 수행함.
@@ -53,10 +60,11 @@ public class SplashScreen implements Screen {
         //splashImg.addAction(Actions.fadeIn(1f));//css의 fadeIn마냥 투명한 상태에서 점점 드러나는 효과 연출 가능. fadeOut은 반대로 투명한상태로 변하는 효과.
         //splashImg.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f)));//sequence 메서드를 통하여 효과를 한번에 지정 가능.
         // 위의 alpha 효과와 fadeIn 메서드의 효과를 동시에 순차적으로 연출가능.
-        splashImg.addAction(Actions.sequence(Actions.alpha(0f), Actions.scaleBy(.1f,.1f),
+        splashImg.addAction(Actions.sequence(Actions.alpha(0), Actions.scaleBy(.1f,.1f),
                 Actions.parallel(Actions.fadeIn(2f,Interpolation.pow2),
                         Actions.scaleTo(2f,2f,2.5f,Interpolation.pow5),
-                        Actions.moveTo(stage.getWidth() /2 -32, stage.getHeight() /2 - 32 ,2f,Interpolation.swing))));
+                        Actions.moveTo(stage.getWidth() /2 -32, stage.getHeight() /2 - 32 ,2f,Interpolation.swing)),
+                        Actions.delay(0.3f), Actions.fadeOut(1.25f), Actions.run(transeformationRunnable)));//스플래쉬 이미지 완료되면 runnable 객체 오버라이딩 메서드 호출함.
         //parallel을 이용하면 병렬적으로 작업 수행 가능. 한꺼번에 실행.sequence에서는 순차적으로 실행이 되므로 효과를 복합적으로 넣기 위해서는 parallel 메서드를 사용해야함.
 
         stage.addActor(splashImg);//액터를 추가 함으로서, 이미지 화면에 나타냄.
@@ -73,7 +81,7 @@ public class SplashScreen implements Screen {
         stage.draw();//포함된 액터에 대해 순서대로 무대에서 사라질것.
 
         app.batch.begin();
-        app.font.draw(app.batch, "SplashScreen!",20,20);//화면에 텍스트 출력
+        app.font24.draw(app.batch, "SplashScreen!",20,20);//화면에 텍스트 출력
         app.batch.end();//batch는 게임의 효율성을 결정! GPU 사용 등.
     }
 
