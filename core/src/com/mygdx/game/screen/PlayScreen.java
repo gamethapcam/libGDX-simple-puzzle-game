@@ -9,9 +9,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
@@ -34,6 +36,8 @@ public class PlayScreen implements Screen {
     //TextButton
     private TextButton buttonBack;
 
+    //Info label
+    private Label labelInfo;//클리어 알리기 위한 라벨
 
     public PlayScreen(final MyGdxGame app){
         this.app = app;
@@ -48,10 +52,10 @@ public class PlayScreen implements Screen {
         }
         nums.shuffle();//libgdx가 제공하는 배열에 random값 적용 시키는 메서드.
 
-        holX = 3;
-        holY = 3;//처음에 버튼의 배열에서 null값인 위치는 끝부분인 [3][3]이니까 3,3으로 초기화.
-        //holX = MathUtils.random(boardSize)-1;
-        //holY = MathUtils.random(boardSize)-1;//boardSize=4 까지 값에서 랜덤값 적용.
+        //holX = 3;
+        //holY = 3;//처음에 버튼의 배열에서 null값인 위치는 끝부분인 [3][3]이니까 3,3으로 초기화.
+        holX = MathUtils.random(0, boardSize - 1);
+        holY = MathUtils.random(0, boardSize - 1);//b oardSize=4 까지 값에서 랜덤값 적용.
 
         buttonGrid = new SlideButton[boardSize][boardSize];
         for(int i=0; i < boardSize; i++){
@@ -80,7 +84,7 @@ public class PlayScreen implements Screen {
                             for(int i =0; i<boardSize && !buttonFound; i++){//버튼 클릭하면 해당 버튼 값
                                 for(int j = 0; j< boardSize && !buttonFound; j++){
                                     if(buttonGrid[i][j] != null && selectedButton == buttonGrid[i][j]){//눌려진 버튼이 null값이 아니라면 실행.
-                                        buttonX = j;
+                                        buttonX = j; 
                                         buttonY = i;
                                         buttonFound = true;
                                         System.out.println("clicked: "+buttonY+", "+buttonX);//클릭 이벤트 발생 확인용.
@@ -90,6 +94,16 @@ public class PlayScreen implements Screen {
 
                             if(holX == buttonX || holY == buttonY){//빈공간의 위치를 나타내는 값이 버튼의 위치값과 같다면 함수실행.
                                 moveButtons(buttonX,buttonY);
+
+                                if(solutionFound()){
+                                    labelInfo.clearActions();
+                                    labelInfo.setText("Congratulation!");
+                                    labelInfo.addAction(Actions.sequence(Actions.alpha(1f),Actions.delay(1f),Actions.fadeOut(2f, Interpolation.pow5Out)));
+                                }
+                            }else {
+                                labelInfo.clearActions();
+                                labelInfo.setText("You can't to this move");
+                                labelInfo.addAction(Actions.sequence(Actions.alpha(1f),Actions.delay(1f),Actions.fadeOut(2f, Interpolation.pow5Out)));
                             }
                         }
                     });
@@ -137,6 +151,26 @@ public class PlayScreen implements Screen {
         System.out.println(y+", "+x);//빈공간 위치 출력.
     }
 
+    private boolean solutionFound(){//게임 클리어 조건 정함.
+        int idCheck = 1;
+        for(int i =0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                if(buttonGrid[i][j] != null){
+                    if(buttonGrid[i][j].getId() == idCheck++){
+                        if(idCheck== 16){
+                            return true;
+                        }
+                    } else {
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
     //Initialize the go to back button
     private void initNavigationButton() {
         buttonBack = new TextButton("Back", skin, "default");
@@ -152,6 +186,14 @@ public class PlayScreen implements Screen {
         stage.addActor(buttonBack);
     }
 
+    private void initInfoLabel(){
+        labelInfo = new Label("Welcome to puzzle game.", skin, "default");
+        labelInfo.setPosition(app.camera.viewportWidth / 4,(app.camera.viewportHeight / 5 * 4)-5);//라벨 위치 선정.
+        labelInfo.setAlignment(Align.center);
+        labelInfo.addAction(Actions.sequence(Actions.alpha(0f),Actions.delay(.5f),Actions.fadeIn(.5f)));
+        stage.addActor(labelInfo);
+    }
+
     @Override
     public void show() {
         System.out.println("PlayScreen");
@@ -164,6 +206,7 @@ public class PlayScreen implements Screen {
         this.skin.load(Gdx.files.internal("ui/uiskin.json"));//마지막에 설정된 값과 json파일 skin객체로 로드.
 
         initNavigationButton();
+        initInfoLabel();
         initGrid();
     }
 
@@ -179,9 +222,7 @@ public class PlayScreen implements Screen {
         update(delta);//update 메서드에서 stage객체에 요소 추가
         stage.draw();//stage객체를 사용자에게 보여주는 역할 수행. 초중요 @@@@@@@
 
-        app.batch.begin();
-        app.font24.draw(app.batch, "Screen: Play", 20, 20);
-        app.batch.end();
+
     }
 
     @Override

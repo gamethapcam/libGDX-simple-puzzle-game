@@ -88,9 +88,9 @@ public class MainMenuScreen implements Screen {
 
         stage.draw();
 
-        app.batch.begin();
-        app.font24.draw(app.batch, "Screen Main Menu", 20, 20);
-        app.batch.end();
+        //app.batch.begin();
+        //app.font24.draw(app.batch, "Screen Main Menu", 20, 20);
+        //app.batch.end();
     }
 
     private void update(float delta) {

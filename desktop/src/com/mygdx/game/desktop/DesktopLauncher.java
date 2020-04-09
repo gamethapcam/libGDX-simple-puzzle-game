@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.height = MyGdxGame.V_HEIGHT;
 		config.backgroundFPS = 60;
 		config.foregroundFPS = 60;
-		//config.resizable = false;//데스크톱으로 실행시, 화면 조절 못하게 설정.
+		config.resizable = false;//데스크톱으로 실행시, 화면 조절 못하게 설정.
 
 		new LwjglApplication(new MyGdxGame(), config);
 	}

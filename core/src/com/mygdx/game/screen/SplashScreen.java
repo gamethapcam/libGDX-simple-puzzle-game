@@ -80,9 +80,9 @@ public class SplashScreen implements Screen {
 
         stage.draw();//해당 무대 객체에서
 
-        app.batch.begin();
-        app.font24.draw(app.batch, "SplashScreen!",20,20);//화면에 텍스트 출력
-        app.batch.end();//batch는 게임의 효율성을 결정! GPU 사용 등.
+        //app.batch.begin();
+        //app.font24.draw(app.batch, "SplashScreen!",20,20);//화면에 텍스트 출력
+        //app.batch.end();//batch는 게임의 효율성을 결정! GPU 사용 등.
     }
 
     public void update(float delta){//무대 행위 호출. 배우 물건 추가, 위치에 영향 끼치기 위한 함수

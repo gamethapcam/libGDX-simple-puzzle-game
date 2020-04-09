@@ -66,9 +66,9 @@ public class LoadingScreen implements Screen {
 
         shapeRenderer.end();
 
-        app.batch.begin();
-        app.font24.draw(app.batch, "Screen: Splash", 20, 20);
-        app.batch.end();
+        //app.batch.begin();
+        //app.font24.draw(app.batch, "Screen: Splash", 20, 20);
+        //app.batch.end();
     }
 
     @Override
