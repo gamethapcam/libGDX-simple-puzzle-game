@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
     public void show() {
         System.out.println("MainMenu-Screen.show");
         Gdx.input.setInputProcessor(stage);//해당 스테이지에서 클릭등을 허용시킴. (초 중요 필수 라인)
-        stage.clear();
+        stage.clear();//화면이 전환될 때(화면 시작시) 전에있던 화면에 있던 개체들을 지움. 최고 중요! @@@@@@@@@@@@@@@@@@
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));//skin객체에 디자인 넣기. 매개변수 atlas 파일
@@ -51,12 +51,23 @@ public class MainMenuScreen implements Screen {
         btnPlay = new TextButton("Play", skin, "default");//버튼 텍스트, 해당 버튼 스타일 객체, uiskin.json파일의 설정이름 불러오기
         btnPlay.setPosition(110,260);
         btnPlay.setSize(280, 60);
-        btnPlay.addAction(Actions.sequence(Actions.alpha(0), Actions.parallel(Actions.fadeIn(.5f), Actions.moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        btnPlay.addAction(Actions.sequence(Actions.alpha(0), Actions.parallel(
+                Actions.fadeIn(.5f), Actions.moveBy(0, -20, .5f, Interpolation.pow5Out))
+        ));
+        btnPlay.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                app.setScreen(app.playScreen);
+            }
+        });
 
         btnExit = new TextButton("Exit", skin, "default");
         btnExit.setPosition(110,190);
         btnExit.setSize(280, 60);
-        btnExit.addAction(Actions.sequence(Actions.alpha(0), Actions.parallel(Actions.fadeIn(.5f), Actions.moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        btnExit.addAction(Actions.sequence(Actions.alpha(0), Actions.parallel(
+                Actions.fadeIn(.5f), Actions.moveBy(0, -20, .5f, Interpolation.pow5Out))
+        ));
+
         btnExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

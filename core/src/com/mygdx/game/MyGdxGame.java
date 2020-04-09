@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.game.screen.LoadingScreen;
 import com.mygdx.game.screen.MainMenuScreen;
+import com.mygdx.game.screen.PlayScreen;
 import com.mygdx.game.screen.SplashScreen;
 
 public class MyGdxGame extends Game {
@@ -31,6 +32,7 @@ public class MyGdxGame extends Game {
 	public LoadingScreen  loadingScreen;
 	public SplashScreen splashScreen;
 	public MainMenuScreen mainMenuScreen;
+	public PlayScreen playScreen;
 
 	@Override
 	public void create(){
@@ -47,6 +49,7 @@ public class MyGdxGame extends Game {
 		loadingScreen = new LoadingScreen(this);
 		splashScreen = new SplashScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
+		playScreen = new PlayScreen(this);
 
 		this.setScreen(loadingScreen);//게임 첫 화면 LoadingScreen으로 설정
 	}
@@ -75,6 +78,7 @@ public class MyGdxGame extends Game {
 		loadingScreen.dispose();
 		splashScreen.dispose();
 		mainMenuScreen.dispose();//불러들인 화면의 객체들의 사용한 값들을 처리.
+		playScreen.dispose();
 	}
 
 }

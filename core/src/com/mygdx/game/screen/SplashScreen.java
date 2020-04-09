@@ -78,7 +78,7 @@ public class SplashScreen implements Screen {
 
         update(delta);
 
-        stage.draw();//포함된 액터에 대해 순서대로 무대에서 사라질것.
+        stage.draw();//해당 무대 객체에서
 
         app.batch.begin();
         app.font24.draw(app.batch, "SplashScreen!",20,20);//화면에 텍스트 출력
@@ -86,9 +86,7 @@ public class SplashScreen implements Screen {
     }
 
     public void update(float delta){//무대 행위 호출. 배우 물건 추가, 위치에 영향 끼치기 위한 함수
-        System.out.println("update...");
         stage.act(delta);
-
     }
 
     @Override

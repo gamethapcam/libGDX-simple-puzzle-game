@@ -32,8 +32,10 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         System.out.println("LODING");//로딩(에셋을 불러오는것이)이 너무 빨리 완료되서 확인용
-        this.progress = 0f;
+        shapeRenderer.setProjectionMatrix(app.camera.combined);//게임세계에서 사물을 렌더링 하는 위치(카메라) 설정. 로딩화면의 크기문제 등 방지.
+        // https://stackoverflow.com/questions/33703663/understanding-the-libgdx-projection-matrix 참조
 
+        this.progress = 0f;
         queueAssets();//에셋 가져오는 메서드 호출.
     }
 
