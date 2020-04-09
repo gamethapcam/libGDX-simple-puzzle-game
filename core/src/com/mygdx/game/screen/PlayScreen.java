@@ -84,7 +84,7 @@ public class PlayScreen implements Screen {
                             for(int i =0; i<boardSize && !buttonFound; i++){//버튼 클릭하면 해당 버튼 값
                                 for(int j = 0; j< boardSize && !buttonFound; j++){
                                     if(buttonGrid[i][j] != null && selectedButton == buttonGrid[i][j]){//눌려진 버튼이 null값이 아니라면 실행.
-                                        buttonX = j; 
+                                        buttonX = j;
                                         buttonY = i;
                                         buttonFound = true;
                                         System.out.println("clicked: "+buttonY+", "+buttonX);//클릭 이벤트 발생 확인용.
