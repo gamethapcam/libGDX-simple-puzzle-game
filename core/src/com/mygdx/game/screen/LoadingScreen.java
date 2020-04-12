@@ -2,6 +2,8 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,6 +29,8 @@ public class LoadingScreen implements Screen {
         //사용자 지정함수인 queueAssets 에서 나중에 사용할 에셋 가져오기.
         app.assets.load("StartScreen/splash.png", Texture.class);//해당 에셋을 원하는 객체로 가져오기. TextureAtlas등을 불러내 사용가능.
         app.assets.load("ui/uiskin.atlas", TextureAtlas.class);
+        app.assets.load("sound/bgm.ogg", Music.class);
+        app.assets.load("sound/rd.ogg", Sound.class);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class LoadingScreen implements Screen {
         //progress(=0f)에서 app.assets.getProgress()까지 0.1f씩 커짐. ==>lerp 메서드 의미. 시각적인 로딩창 구현 완료.
         if (app.assets.update() && progress >= app.assets.getProgress() - .001f){//앱의 에셋이 업데이트되고, 로딩창 애니메이션도 다 끝났다음의 동작 설정(보편적으로 게임에서 로딩 끝난 후 로그인이나 게임화면으로)
             //app.setScreen(new SplashScreen(app));//로딩 다 끝났으니 화면 이동
-            app.setScreen(app.splashScreen);//위 주석 라인 코드와 기능은 같지만, new 인스턴스를 만드는 것으로 메모르 낭비.
+            app.setScreen(app.splashScreen);//위 주석 라인 코드와 기능은 같지만, new 인스턴스를 만드는 것으로 메모리 낭비.
         }
     }
 

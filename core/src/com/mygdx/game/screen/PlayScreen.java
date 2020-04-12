@@ -2,6 +2,9 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.SoundLoader;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
@@ -19,11 +22,17 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.actors.SlideButton;
 
+import javax.sound.midi.Soundbank;
+
 public class PlayScreen implements Screen {
 
     //App reference
     private MyGdxGame app;
 
+    //Sound reference
+    private Sound sound;
+    //private Sound sound = Gdx.audio.newSound(Gdx.files.internal("sound/rd.ogg"));//이 방법은 메모리 낭비가 심할 수도, 반응이 늦어질수도 있음.
+    // 로딩창에서 assetmanager객체를 이용해 담아놓은 ogg파일을 이용해 메모리 낭비, 반응 저하 방지.
     //Stage var
     private Stage stage;
     private Skin skin;
@@ -148,6 +157,7 @@ public class PlayScreen implements Screen {
                 buttonGrid[holY + 1][holX] = null;
             }
         }
+        sound.play(1f);
         System.out.println(y+", "+x);//빈공간 위치 출력.
     }
 
@@ -179,6 +189,7 @@ public class PlayScreen implements Screen {
         buttonBack.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                sound.play(1f);
                 app.setScreen(app.mainMenuScreen);
             }
         });
@@ -199,6 +210,8 @@ public class PlayScreen implements Screen {
         System.out.println("PlayScreen");
         Gdx.input.setInputProcessor(stage);
         this.stage.clear();
+
+        sound = app.assets.get("sound/rd.ogg", Sound.class);//
 
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));//skin객체에 디자인 넣기. 매개변수 atlas 파일
@@ -221,8 +234,6 @@ public class PlayScreen implements Screen {
 
         update(delta);//update 메서드에서 stage객체에 요소 추가
         stage.draw();//stage객체를 사용자에게 보여주는 역할 수행. 초중요 @@@@@@@
-
-
     }
 
     @Override
@@ -248,6 +259,6 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
+        sound.dispose();
     }
 }

@@ -2,6 +2,8 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -20,6 +22,7 @@ public class MainMenuScreen implements Screen {
     private final MyGdxGame app;
     private Stage stage;
     private Skin skin;
+    private Music bgm;
 
     private TextButton btnPlay, btnExit;
 
@@ -39,6 +42,10 @@ public class MainMenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);//해당 스테이지에서 클릭등을 허용시킴. (초 중요 필수 라인)
         stage.clear();//화면이 전환될 때(화면 시작시) 전에있던 화면에 있던 개체들을 지움. 최고 중요! @@@@@@@@@@@@@@@@@@
 
+        bgm = app.assets.get("sound/bgm.ogg");//assetmanager객체에서 로딩창 로드 할 때 담아놓은 음악 파일 가져옴.
+        bgm.setLooping(true);//배경음악 반복 설정
+        bgm.setVolume(1f);
+
         this.skin = new Skin();
         this.skin.addRegions(app.assets.get("ui/uiskin.atlas", TextureAtlas.class));//skin객체에 디자인 넣기. 매개변수 atlas 파일
         this.skin.add("default-font", app.font24);//skin 객체에 폰트 설정. uiskin.json에서 설정되어있는 default-font로 font24객체를 넣어줌.
@@ -57,6 +64,7 @@ public class MainMenuScreen implements Screen {
         btnPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                bgm.stop();//화면 전환 동시에 배경음악 종료.
                 app.setScreen(app.playScreen);
             }
         });
@@ -88,6 +96,7 @@ public class MainMenuScreen implements Screen {
 
         stage.draw();
 
+        bgm.play();
         //app.batch.begin();
         //app.font24.draw(app.batch, "Screen Main Menu", 20, 20);
         //app.batch.end();
