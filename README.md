@@ -13,4 +13,6 @@ Game goal: Placing numbers in order.<br>
 
 All code descriptions are included in Korean. If you need commentary, use google translate.<br>
 <br>
-libgdx를 이용한 간단한 퍼즐 게임입니다.
+libgdx를 이용한 간단한 퍼즐 게임입니다.<br>
+
+출처: <a href="https://www.youtube.com/watch?v=S-wCEUO_dY8&list=PLD_bW3UTVsEkPsT2JfVcZmAjmWByIpRvT&index=2&t=5s">LibGDX - Scene2D (Slide 15)</a>
