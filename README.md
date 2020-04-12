@@ -9,7 +9,7 @@
 <img src="https://user-images.githubusercontent.com/60742556/79060911-5d10b900-7cc5-11ea-8977-6c5762105de7.PNG"><br>
 <h5>Game Play</h5>
 Game goal: Placing numbers in order.<br>
-<img s="https://user-images.githubusercontent.com/60742556/79061075-54b97d80-7cc7-11ea-9414-2053a9856a29.PNG"><br>
+<img src="https://user-images.githubusercontent.com/60742556/79061075-54b97d80-7cc7-11ea-9414-2053a9856a29.PNG"><br>
 
 All code descriptions are included in Korean. If you need commentary, use google translate.<br>
 <br>
